@@ -57,7 +57,7 @@ router.route('/')
                         console.log('err: ' + err);
                         res.render('error', {err: '댓글 작성 실패'});
                     } else if(result) {
-                        res.redirect('/users?id=' + req.cookies.id);
+                        res.send({result: docs[0].comments});
                     }
                 }
             );

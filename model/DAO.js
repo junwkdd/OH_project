@@ -122,7 +122,7 @@ exports.addcomment = function(content, id, post_id, callback) {
     var date = moment().format('YYYY-MM-DD(hh:mm)');
 
     user.toArray(function(err, docs) {
-        var comment = {'name': docs[0].name, 'content': content, 'date': date}
+        var comment = {'name': docs[0].name, 'id': id, 'content': content, 'date': date};
         posts.updateOne({"_id": post_id}, {$push: {'comments': comment}},
             function(err, result) {
                 if (err) {
@@ -150,17 +150,12 @@ exports.addcomment2 = function(content, id, post_id, callback) {
     var user = users.find({ 'id': id });
     var date = moment().format('YYYY-MM-DD(hh:mm)');
 
-
-    board.toArray(function(err, docs) {
-        console.dir('board.docs: ' + docs);
-    })
-
     user.toArray(function(err, docs) {
         if(err) {
             console.log('err: ' + err);
             callback(err, null);
         } else {
-            var comment = {'name': docs[0].name, 'content': content, 'date': date};
+            var comment = {'name': docs[0].name, 'id': id, 'content': content, 'date': date};
             boards.updateOne({"_id": post_id}, {$push: {'comments': comment}},
                 function(err, result) {
                     if (err) {

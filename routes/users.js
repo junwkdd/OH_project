@@ -48,7 +48,7 @@ router.route('/')
           res.render('error', {err: err});
         }
         if(result) {
-          res.send({user: docs});
+          res.redirect('/users?id=' + req.cookies.id);
         } else {
           res.render('error', {err: '회원가입 실패'});
         }
