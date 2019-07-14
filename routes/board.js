@@ -86,6 +86,7 @@ router.route('/input')
                 }
             );
         } else {
+            res.redirect('/users/login');
         }
     }
     

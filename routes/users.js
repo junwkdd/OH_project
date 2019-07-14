@@ -30,7 +30,7 @@ router.route('/')
     );
   } else {
     console.log('로그인이 안되어있음');
-    res.redirect('/');
+    res.redirect('/users/login');
   }
 })
 .post(function(req, res, next) {

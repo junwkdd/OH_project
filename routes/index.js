@@ -97,6 +97,8 @@ router.route('/')
         )
       }
     }
+  } else {
+    res.redirect('/users/login');
   }
 })
 .delete(function(req, res, next) {
