@@ -93,7 +93,15 @@ router.route('/input')
 })
 .get(function(req, res) {
     if(req.cookies.id) {
-        res.render('boardinput', {id: req.cookies.id});
+        model.showusers(req.cookies.id,
+            function(err, user) {
+                if(err) {
+                    res.render('err', {err: err});
+                } else {
+                    res.render('boardinput', {id: req.cookies.id, name: user[0].name});
+                }
+            }
+        );
     } else {
         console.log('로그인이 안되어있음');
         res.redirect('/users/login');

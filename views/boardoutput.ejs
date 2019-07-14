@@ -76,9 +76,9 @@
                     <% if(post.comments !== undefined) { %>
                         <% for(var j = 0; j<post.comments.length; j++) { %>
                             <div class="media pl-4 pt-3">
-                                <a href="/users?id=<%=post.id%>"><img src="../images/porfile.png" alt="" class="mr-3 rounded-circle" style="width:40px;"></a>
+                                <a href="/users?id=<%=post.comments[j].id%>"><img src="../images/porfile.png" alt="" class="mr-3 rounded-circle" style="width:40px;"></a>
                                 <div class="media-body" id="comment-body">
-                                    <a href="/users?id=<%=post.id%>" class="hover"><h6><span id="post_name"><%=post.comments[j].name%></span></a> <small><i id="post_date"> <%=post.comments[j].date%></i></small></h6>
+                                    <a href="/users?id=<%=post.comments[j].id%>" class="hover"><h6><span id="post_name"><%=post.comments[j].name%></span></a> <small><i id="post_date"> <%=post.comments[j].date%></i></small></h6>
                                     <p id="post_content" class="bg-white rounded-lg p-2"><%=post.comments[j].content%></p>
                                 </div>
                             </div>
@@ -99,9 +99,9 @@
                                     if(data !== undefined) {
                                         for(var j = 0; j < data.length; j++) {
                                             var html = '<div class="media pl-4 pt-3">';
-                                                html += '<a href="/users?id=<%=post.id%>"><img src="../images/porfile.png" alt="" class="mr-3 rounded-circle" style="width:40px;"></a>';
+                                                html += '<a href="/users?id=' + data[j].id + '"><img src="../images/porfile.png" alt="" class="mr-3 rounded-circle" style="width:40px;"></a>';
                                                 html += '<div class="media-body" id="comment-body">';
-                                                html += '<a href="/users?id=<%=id%>" class="hover"><h6><span id="post_name">' + data[j].name + '</span></a> <small><i id="post_date">' + data[j].date + '</i></small></h6>';
+                                                html += '<a href="/users?id=' + data[j].id + '" class="hover"><h6><span id="post_name">' + data[j].name + '</span></a> <small><i id="post_date">' + data[j].date + '</i></small></h6>';
                                                 html += '<p id="post_content" class="bg-white rounded-lg p-2">' + data[j].content + '</p>';
                                                 html += '</div>'
                                                 html += '</div>' 
