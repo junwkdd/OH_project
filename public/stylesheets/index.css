@@ -1,0 +1,83 @@
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
+* :focus {
+    box-shadow: none!important;
+}
+
+.hover {
+    text-decoration: none!important;
+    color: #212529;
+}
+.hover:hover {
+    text-decoration: none!important;
+    color: #212529!important;
+}
+.tooltip-inner {
+    white-space:pre-wrap;
+}
+
+html, body {
+    overflow-x:hidden;
+    height: 100vh;
+}
+
+.btn {
+    background: #006599!important;
+    color: #FFFFFF!important;
+    border: none;
+}
+
+.btn:hover {
+    color: #FFFFFF!important;
+}
+
+.btn:active {
+    background: #006599!important;
+    color: white;
+    position: relative;
+    right: 1px;
+    top: 1px;
+}
+
+.nav-link {
+    font-size: 20px;
+    padding: 0.7rem;
+    padding-right: 1.4rem!important;
+    padding-left: 1.4rem!important;
+}
+
+.nav-link:hover {
+    color: #000!important;
+    background-color: #F2F2F2!important;
+    transition: all 0.3s !important;
+}
+
+.second {
+    font-size: 17px!important;
+}
+
+.third {
+    font-size: 13px!important;
+}
+
+a:hover {
+    text-decoration: none;
+}

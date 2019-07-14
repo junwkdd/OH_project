@@ -1,0 +1,124 @@
+<!doctype html>
+<html>
+  <head>
+    <title>회원가입</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="../stylesheets/index.css">
+    <link rel="stylesheet" href="/stylesheets/login.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  </head>
+
+  <body>  
+    <nav class="navbar navbar-expand-sm navbar-dark sticky-top p-0" style="background-color: #006599">
+      <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+              <a class="nav-link" href="/"><i class="fas fa-home mr-3"></i>OH !</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="/board"><i class="fas fa-clipboard-list mr-3"></i><span class="third">게시판</span></a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="#"><i class="fas fa fa-envelope mr-3"></i><span class="third">메시지</span></a>
+          </li>
+      </ul>
+      <ul class="navbar-nav">
+          <li class="nav-item" style="padding-top: 0.7rem;">
+              <a class="active" href="/users/login"><span class="third text-white">Log in</span></a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link active" href="/users/login">
+                  <i class="fas fa-user-circle fa-lg mr-2"></i>
+              </a>
+          </li>
+        </ul>
+    </nav> 
+    <div class="wrapper fadeInDown">
+  
+        <div id="formContent" class="mt-4">
+          <!-- 회원가입 -->
+          <div class="fadeIn first">
+            <h3 class="mt-4" style="color: #56baed">회원가입</h3>
+          </div>
+
+          <!-- 회원가입 폼 -->
+          <form method="POST" autocomplete="off">
+            <input type="text" id="name" class="fadeIn second mt-4" name="name" placeholder="이름" required>
+            <input type="text" id="id" class="fadeIn third mt-4" name="id" placeholder="아이디" oninput="IDSame();" required>
+            <input type="password" id="pw" class="fadeIn fourth mt-4" name="pw" placeholder="비밀번호" oninput="PWSame();" required>
+            <input type="password" id="repw" class="fadeIn fifth mt-4" name="repw" placeholder="비밀번호 확인" oninput="PWSame();" required>
+            <!-- 조건 확인 -->
+            <div class="fadeIn sixth mt-3">
+              <p class="d-inline mr-3"><i class="fas fa-check pr-2" id="id_check"></i>아이디 중복</p>
+              <p class="d-inline ml-3"><i class="fas fa-check pr-2" id="pw_check"></i>비밀번호 확인</p>
+            </div>
+            <input type="submit" id="button" class="fadeIn sixth mt-4 mb-4" style="font-size: 15px;" value="회원가입">
+          </form>
+
+          <!-- 회원가입으로 -->
+          <div id="formFooter">
+            이미 가입했다면? <a class="underlineHover" href="/users/login">로그인하기</a>
+          </div>
+
+        </div>
+    </div>
+    
+    <script>
+        var id_ok;
+        var pw_ok;
+        function PWSame() {
+          if(pw.value == repw.value) {
+              document.getElementById('pw_check').style.color="#28a745";
+              pw_ok = true;
+          } else {
+              document.getElementById('pw_check').style.color="#FF0000";
+              pw_ok = false;
+          }
+          if(id_ok && pw_ok) {
+              document.getElementById('button').disabled = false;
+              document.getElementById('button').style.background="#39ace7";
+          } else {
+              document.getElementById('button').disabled = true;
+              document.getElementById('button').style.background="#BDBDBD";
+              document.getElementById('button').style.boxShadow="none";
+          }
+        }
+
+        function IDSame() {
+          var id = document.getElementById('id').value;
+          id_ok = true;
+          if(<%= users.length %> == 0) {
+            document.getElementById('id_check').style.color="#28a745";
+          }
+          <%for(var i = 0; i < (users.length); i++) { %>
+                if('<%=users[i].id%>' == id) {
+                  console.log('아이디 중복');
+                  var idcheck = false;
+                } else {
+                    console.log('아이디 노중복');
+                    document.getElementById('id_check').style.color="#28a745";
+                    id_ok = true;
+                }
+                if(idcheck == false) {
+                    document.getElementById('id_check').style.color="#FF0000";
+                    id_ok = false;
+                }
+                if(id_ok && pw_ok) {
+                    document.getElementById('button').disabled = false;
+                    document.getElementById('button').style.background="#39ace7";
+                } else {
+                    document.getElementById('button').disabled = true;
+                    document.getElementById('button').style.background="#BDBDBD";
+                    document.getElementById('button').style.boxShadow="none";
+                }
+          <% } %> 
+        }
+    </script>
+  </body>
+</html>
+

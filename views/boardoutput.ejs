@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>게시판</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="../stylesheets/index.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-sm navbar-dark sticky-top p-0" style="background-color: #006599">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/"><i class="fas fa-home mr-3"></i>OH !</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/board"><i class="fas fa-clipboard-list mr-3"></i><span class="third">게시판</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="fas fa fa-envelope mr-3"></i><span class="third">메시지</span></a>
+                </li>
+            </ul>
+            <ul class="navbar-nav">
+                <% if(id == undefined) { %>
+                    <li class="nav-item" style="padding-top: 0.7rem;">
+                        <a class="active" href="/users/login"><span class="third text-white">Log in</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/users/login">
+                            <i class="fas fa-user-circle fa-lg mr-2"></i>
+                        </a>
+                    </li>
+                <% } else { %>
+                    <li class="nav-item" style="padding-top: 0.7rem;">
+                        <a class="active" href="/users/logout"><span class="third text-white">Log out</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/users?id=<%=id%>">
+                            <i class="fas fa-user-circle fa-lg mr-2"></i>
+                            <span class="second"><%=name%></span>
+                        </a>
+                    </li>
+                <% } %>
+            </ul>
+        </nav>
+        
+        <div class="container mt-5">
+            <div class="shadow-lg card bg-white rounded">
+                <div class="card-header pb-0">
+                    <img src="../images/porfile.png" alt="profileimg" class="float-left rounded-circle mt-1" style="width:60px">
+                    <span class="float-right text-secondary"><%=post.date%></span>
+                    <h4 class="pt-3 pl-4 ml-5"><%=post.title%></h4>
+                    <a href="../profile/<%=post.id%>"><span class="float-right pb-2 text-secondary"><%=post.name%></span></a>
+                </div>
+                <div class="card-body px-5 pb-3" style="font-size: 17px; height: 50vh">
+                    <p><%=post.content%></p>
+                </div>         
+                
+                <div class="card-footer" id="comment_board">
+                    <%# 댓글 입력 %>
+                    <div class="input-group mb-2">
+                        <input type="text" class="form-control form-control-sm" placeholder="<%=name%>님 댓글을 작성해보세요." name="comment" id="comment">
+                        <div class="input-group-append">
+                            <button class="btn btn-dark btn-sm rounded-right" type="submit" id="enter_comment">작성</button> 
+                        </div>
+                    </div>
+
+                    <%# 댓글 보여주기 %>
+                    <% if(post.comments !== undefined) { %>
+                        <% for(var j = 0; j<post.comments.length; j++) { %>
+                            <div class="media pl-4 pt-3">
+                                <a href=""><img src="../images/porfile.png" alt="" class="mr-3 rounded-circle" style="width:40px;"></a>
+                                <div class="media-body" id="comment-body">
+                                    <a href="/users?id=<%=id%>" class="hover"><h6><span id="post_name"><%=post.comments[j].name%></span></a> <small><i id="post_date"> <%=post.comments[j].date%></i></small></h6>
+                                    <p id="post_content" class="bg-white rounded-lg p-2"><%=post.comments[j].content%></p>
+                                </div>
+                            </div>
+                        <% } %>
+                    <% } %>
+
+                    <%# 비동기 댓글 추가 %>
+                    <script>
+                        $('#enter_comment').click(function() {
+                            var comment = $('#comment').val();
+                            $('#comment').val('');
+                            $.ajax({
+                                url: '/board',
+                                type: 'post',
+                                data: {comment: comment, postid: '<%=post._id%>'},
+                                success: function(res) {
+                                    var data = res['result'];
+                                    if(data !== undefined) {
+                                        for(var j = 0; j < data.length; j++) {
+                                            var html = '<div class="media pl-4 pt-3">';
+                                                html += '<a href=""><img src="../images/porfile.png" alt="" class="mr-3 rounded-circle" style="width:40px;"></a>';
+                                                html += '<div class="media-body" id="comment-body">';
+                                                html += '<a href="/users?id=<%=id%>" class="hover"><h6><span id="post_name">' + data[j].name + '</span></a> <small><i id="post_date">' + data[j].date + '</i></small></h6>';
+                                                html += '<p id="post_content" class="bg-white rounded-lg p-2">' + data[j].content + '</p>';
+                                                html += '</div>'
+                                                html += '</div>' 
+                                        }
+                                        $('#comment_count').html('(' + data.length + ')');
+                                        $('#comment_board').append(html);
+                                    }
+                                },  
+                                error: function(request, status, error) {
+                                    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                                }
+                            })
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

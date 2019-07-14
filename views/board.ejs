@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>게시판</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+        <link rel="stylesheet" href="../stylesheets/index.css">
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js">
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    </head>
+    <body>   
+        <nav class="navbar navbar-expand-sm navbar-dark sticky-top p-0" style="background-color: #006599">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/"><i class="fas fa-home mr-3"></i>OH !</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/board"><i class="fas fa-clipboard-list mr-3"></i><span class="third">게시판</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="fas fa fa-envelope mr-3"></i><span class="third">메시지</span></a>
+                </li>
+            </ul>
+            <ul class="navbar-nav">
+                <% if(id == undefined) { %>
+                    <li class="nav-item" style="padding-top: 0.7rem;">
+                        <a class="active" href="/users/login"><span class="third text-white">Log in</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/users/login">
+                            <i class="fas fa-user-circle fa-lg mr-2"></i>
+                        </a>
+                    </li>
+                <% } else { %>
+                    <li class="nav-item" style="padding-top: 0.7rem;">
+                        <a class="active" href="/users/logout"><span class="third text-white">Log out</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/users?id=<%=id%>">
+                            <i class="fas fa-user-circle fa-lg mr-2"></i>
+                            <span class="second"><%=name%></span>
+                        </a>
+                    </li>
+                <% } %>
+            </ul>
+        </nav>
+
+        <div class="container mt-5">
+            <table class="table table-striped table-bordered table-hover text-center">
+                <thead>
+                    <tr class="">
+                        <th>번호</th>
+                        <th>제목</th>
+                        <th>작성자</th>
+                        <th>날짜</th>
+                        <th>조회수</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <% for(var i = 0; i < board.length; i++) { %>
+                    <tr onclick="window.location='/board?postid=<%=board[i]._id%>'">
+                        <td><%=board[i].post_id%></td>
+                        <% if(board[i].comments !== undefined) { %>
+                            <td><%=board[i].title%>(<%=board[i].comments.length%>)</td>
+                        <% } else { %>
+                            <td><%=board[i].title%></td>
+                        <% } %>
+                        <td><%=board[i].name%></td>
+                        <td><%=board[i].date%></td>
+                        <td><%=board[i].view%></td>
+                    </tr>
+                <% } %>
+                </tbody>
+            </table>
+
+            <hr/>
+            <div>
+                <a href="/board/input" class="btn btn-sm rounded float-right btn-primary">글쓰기</a><br><br>
+            </div>
+
+            <ul class="pagination justify-content-center">
+                <li class="page-item"><a class="page-link" href="?page=1">&laquo;</a></li>
+                <% for(var i = start; i <= end; i++) { %>
+                    <li class="page-item"><a class="page-link" href="?page=<%=i%>"><%= i %></a></li>
+                <% } %>
+                <li class="page-item"><a class="page-link" href="?page=<%=totalPage%>">&raquo;</a></li>
+            </ul>
+        </div>
+    </body>
+</html>
