@@ -1,5 +1,7 @@
 var express = require('express');
 var router = express.Router();
+var formidable = require('formidable');
+var fs = require('fs-extra');
 
 var model = require('../model/DAO');
 
@@ -40,6 +42,32 @@ router.route('/')
   var profession = req.body.profession;
   var email = req.body.email;
   var id = req.cookies.id;
+  var name = "";
+  var filePath = "";
+  var form = new formidable.IncomingForm();
+
+  form.parse(req, function(err, fields, files) {
+    name = fields.name;
+  });
+  
+  form.on('end', function(fields, files) {
+    console.log('ㅎㅇㄹ');
+    for (var i = 0; i < this.openedFiles.length; i++) {
+      var temp_path = this.openedFiles[i].path;
+      var file_name = this.openedFiles[i].name;
+      var index = file_name.indexOf('/'); 
+      var new_file_name = file_name.substring(index + 1);
+      var new_location = 'public/resources/images/'+name+'/';
+      var db_new_location = 'resources/images/'+name+'/';
+      filePath = db_new_location + file_name;
+      fs.copy(temp_path,new_location + file_name, function(err) { 
+        if (err) {
+          console.error(err);
+        }
+      });
+      model.addimg(name, filePath);
+    }
+  });
 
   if(student_id && profession && email) {
     model.addinfo(id, student_id, profession, email, 

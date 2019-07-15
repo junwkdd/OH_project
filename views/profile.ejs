@@ -61,6 +61,7 @@
                             <div class="file btn btn-lg btn-primary">
                                 Change Photo
                                 <input class="file-upload upload-button" type="file" title="profileimg" accept="image/*"/>
+                                <%#
                                 <script>
                                     $(document).ready(function() {
                                         var readURL = function(input) {
@@ -81,6 +82,7 @@
                                         });
                                     });
                                 </script>
+                                %>
                             </div>
                         </div>
                     </div>
@@ -101,7 +103,9 @@
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <input type="submit" class="profile-edit-btn" name="btnAddMore" value="Edit Profile"/>
+                    <% if(user.id == id) { %>
+                        <input type="submit" class="profile-edit-btn" name="btnAddMore" value="프로필 수정"/>
+                    <% } %>
                     </div>
                 </div>
                 <div class="row">

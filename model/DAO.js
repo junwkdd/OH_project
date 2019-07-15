@@ -51,7 +51,7 @@ exports.showpost = function(id, callback) {
 }
 
 exports.addUser = function (id, passwords, name, callback) {
-    console.log('add User 호출됨' + id + '  , ' + passwords);
+    console.log('add User 호출됨');
     var users = db.collection('users');
  
     users.insertMany([{ "id": id, "passwords": passwords, "name": name }],
@@ -437,3 +437,21 @@ exports.showboard = function(post_id, callback) {
         }
     });
 };
+
+exports.addimg = function(name, filepath, callback) {
+    console.log('addimg 호출됨');
+
+    var images = db.collection('images');
+    
+    images.insertOne({"name":name,"filepath":filepath}, 
+        function(err, result) {
+            if(err) {
+                console.log('err: ' + err);
+                callback(err, null);
+            } else {
+                console.log('이미지 저장 성공');
+                callback(null, result);
+            }
+        }
+    )
+}

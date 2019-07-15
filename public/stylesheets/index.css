@@ -98,3 +98,9 @@ html, body {
 a:hover {
     text-decoration: none;
 }
+
+*:focus {
+    box-shadow: none!important;
+    text-decoration: none;
+    outline: none;
+}
