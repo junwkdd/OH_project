@@ -19,8 +19,8 @@
 <body>
     <nav class="navbar navbar-expand-sm navbar-dark sticky-top p-0" style="background-color: #006599">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="/"><i class="fas fa-home mr-3"></i>OH !</a>
+            <li class="nav-item">
+                <a class="nav-link active" href="/"><i class="fas fa-home mr-3"></i>OH !</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/board"><i class="fas fa-clipboard-list mr-3"></i><span class="third">게시판</span></a>
@@ -32,19 +32,19 @@
         <ul class="navbar-nav">
             <% if(id == undefined) { %>
                 <li class="nav-item" style="padding-top: 0.7rem;">
-                    <a class="active" href="/users/login"><span class="third text-white">Log in</span></a>
+                    <a class="" href="/users/login"><span class="third log">Log in</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="/users/login">
+                    <a class="nav-link " href="/users/login">
                         <i class="fas fa-user-circle fa-lg mr-2"></i>
                     </a>
                 </li>
             <% } else { %>
                 <li class="nav-item" style="padding-top: 0.7rem;">
-                    <a class="active" href="/users/logout"><span class="third text-white">Log out</span></a>
+                    <a class="" href="/users/logout"><span class="third log">Log out</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="/users?id=<%=id%>">
+                    <a class="nav-link" href="/users?id=<%=id%>">
                         <i class="fas fa-user-circle fa-lg mr-2"></i>
                         <span class="second"><%=name%></span>
                     </a>
@@ -75,7 +75,7 @@
         </div>
 
         <%# 본문 %>
-        <div class="col-sm-8">
+        <div class="col-sm-8 ml-5">
             <%# 게시글 입력 %>
             <div class="row">    
                 <div class="card col-sm-12 px-0">
@@ -290,9 +290,6 @@
                     }
                 });
             </script>
-        </div>
-
-        <div class="col-sm-2">
         </div>
     </div>
 

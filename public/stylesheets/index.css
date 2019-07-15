@@ -1,3 +1,7 @@
+::-webkit-scrollbar { 
+    display: none; 
+}
+
 .btn-file {
     position: relative;
     overflow: hidden;
@@ -81,6 +85,14 @@ html, body {
 
 .third {
     font-size: 13px!important;
+}
+
+.log {
+    color: rgba(255,255,255,.5);
+}
+
+.log:hover {
+    color: white!important
 }
 
 a:hover {
