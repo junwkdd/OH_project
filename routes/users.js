@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var formidable = require('formidable');
-var fs = require('fs-extra');
 
 var model = require('../model/DAO');
 
@@ -42,36 +41,40 @@ router.route('/')
   form.keepExtensions = true;
 
   form.parse(req);
-
   form.on('fileBegin', function (name, file){
-    file.path = form.uploadDir + file.name;
-    filepath = file.path;
+      console.log('asd');
+      file.path = form.uploadDir + file.name;
+      filepath = file.path;
   });
-
   form.on('file', function (name, file){
     console.log('Uploaded ' + file.name);
+  }).on('error', function(err) {
+    console.log('err: ' + err);
+    res.redirect('/users?id=' + req.cookies.id);
   });
 
-  model.addinfo(id, student_id, profession, email, 
-    function(err, result, docs) {
-      if(err) {
-        res.render('error', {err: err});
-      }
-      if(result) {
-        model.addimg(id, filepath, 
-          function(err, result) {
-            if(err) {
-              res.render('err: ' + err);
-            } else {
-              res.redirect('/users?id=' + req.cookies.id);
+  if(student_id && profession && email) {
+    model.addinfo(id, student_id, profession, email, 
+      function(err, result, docs) {
+        if(err) {
+          res.render('error', {err: err});
+        }
+        if(result) {
+          model.addimg(id, filepath, 
+            function(err, result) {
+              if(err) {
+                res.render('err: ' + err);
+              } else {
+                res.redirect('/users?id=' + req.cookies.id);
+              }
             }
-          }
-        );
-      } else {
-        res.render('error', {err: '회원가입 실패'});
+          );
+        } else {
+          res.render('error', {err: '회원가입 실패'});
+        }
       }
-    }
-  );
+    );
+  }
 });
 
 router.route('/register')

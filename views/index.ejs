@@ -75,7 +75,7 @@
         </div>
 
         <%# 본문 %>
-        <div class="col-sm-8 ml-5">
+        <div class="col-sm-8 ml-5" style="overflow:scroll; overflow-x: hidden; height: 90vh!important;">
             <%# 게시글 입력 %>
             <div class="row">    
                 <div class="card col-sm-12 px-0">
@@ -83,10 +83,21 @@
                         <div class="card-header py-2 px-3">게시물 작성</div>
                         <div class="card-body p-0">
                         <% if(name !== undefined) { %>
-                                <textarea class="form-control border-0 pl-3 px-3" name="content" placeholder="<%=name%>님 내용을 작성하세요." rows="3" id="comment" autocomplete="off" style="resize:none; overflow: hidden;" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'></textarea>
+                                <div contentEditable="true" class="form-control border-0 pl-3 px-3" placeholder="<%=name%>님 내용을 작성하세요." style="height: 82px;"></div>
+                                <!--<textarea class="form-control border-0 pl-3 px-3" name="content" placeholder="<%=name%>님 내용을 작성하세요." rows="3" id="comment" autocomplete="off" style="resize:none; overflow: hidden;" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'></textarea>-->
                             <% } else { %>
                                 <textarea class="form-control border-0 pl-3 px-3" name="content" placeholder="로그인을 하고 게시물을 작성해보세요." rows="3" id="comment" autocomplete="off" style="resize:none; overflow: hidden;" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'></textarea>
                             <% } %>
+                            <script type="text/javascript" charset="utf-8">
+                                jQuery(function($){
+                                    $("[contenteditable]").focusout(function(){
+                                        var element = $(this);        
+                                        if (!element.text().trim().length) {
+                                            element.empty();
+                                        }
+                                    });
+                                });
+                            </script>
                         </div>
                         <div class="card-footer py-2 px-3" style="overflow: hidden">
                             <span class="btn btn-file btn-sm border-0"><i class="fas fa-image mr-2"></i>이미지 선택<input type="file" name="" id="" class=""></span>
@@ -100,7 +111,6 @@
             <% for(var i = 0; i < post.length; i++) { %>
                 <div class="row mt-3 mb-3">
                     <div class="card col-sm-12 px-0">
-                        
                         <%# 본문  %>
                         <div class="card-body px-0">
                             <div class="media px-2">

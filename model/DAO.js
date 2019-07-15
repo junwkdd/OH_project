@@ -442,6 +442,8 @@ exports.addimg = function(id, filepath, callback) {
     console.log('addimg 호출됨');
 
     var users = db.collection('users');
+
+    filepath = filepath.substring(35, 100);
     
     users.updateOne({ "id": id }, {$set: {"filepath":filepath}}, 
         function(err, result) {
@@ -454,4 +456,4 @@ exports.addimg = function(id, filepath, callback) {
             }
         }
     )
-}
+};

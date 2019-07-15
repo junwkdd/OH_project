@@ -56,8 +56,12 @@
             <form method="post" autocomplete="off" enctype="multipart/form-data">
                 <div class="row">
                     <div class="col-md-4">
-                        <div class="profile-img">
-                            <img src="<%=user.filepath%>" alt="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS52y5aInsxSm31CvHOFHWujqUx_wWTS9iM6s7BAm21oEN_RiGoog" class="img rounded-circle"/>
+                        <div class="profile-img mt-n5">
+                        <% if(user.filepath !== undefined) { %>
+                            <img src="..<%=user.filepath%>" alt="ㅎㅇㄹ" class="img rounded-circle"/>
+                        <% } else { %>
+                            <img src="../images/porfile.png" alt="ㅂㅇㄹ" class="img rounded-circle"/>
+                        <% } %>
                             <div class="file btn btn-lg btn-primary">
                                 Change Photo
                                 <input class="file-upload upload-button" type="file"name="upload" multiple="multiple" title="profileimg" accept="image/*"/>
