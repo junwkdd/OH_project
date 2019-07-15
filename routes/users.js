@@ -16,15 +16,7 @@ router.route('/')
           res.render('error', {err: err});
         }
         if(result_user && result_post) {
-          model.showusers(req.cookies.id, 
-            function(err, user) {
-              if(err) {
-                res.render('err', {err: err});
-              } else {
-                res.render('profile', {user: result_user[0], post: result_post, board: result_board, id: req.cookies.id});
-              }
-            }
-          )
+          res.render('profile', {user: result_user[0], post: result_post, board: result_board, id: req.cookies.id});
         } else {
           res.render('error', {err: '프로필 불러오기 실패'});
         }
@@ -42,47 +34,44 @@ router.route('/')
   var profession = req.body.profession;
   var email = req.body.email;
   var id = req.cookies.id;
-  var name = "";
-  var filePath = "";
   var form = new formidable.IncomingForm();
+  var filepath;
+  form.encoding = 'utf-8';
+  form.uploadDir = 'C:/Node-workspace/OH_project/public/images/profiles/';
+  form.multiples = false;
+  form.keepExtensions = true;
 
-  form.parse(req, function(err, fields, files) {
-    name = fields.name;
-  });
-  
-  form.on('end', function(fields, files) {
-    console.log('ㅎㅇㄹ');
-    for (var i = 0; i < this.openedFiles.length; i++) {
-      var temp_path = this.openedFiles[i].path;
-      var file_name = this.openedFiles[i].name;
-      var index = file_name.indexOf('/'); 
-      var new_file_name = file_name.substring(index + 1);
-      var new_location = 'public/resources/images/'+name+'/';
-      var db_new_location = 'resources/images/'+name+'/';
-      filePath = db_new_location + file_name;
-      fs.copy(temp_path,new_location + file_name, function(err) { 
-        if (err) {
-          console.error(err);
-        }
-      });
-      model.addimg(name, filePath);
-    }
+  form.parse(req);
+
+  form.on('fileBegin', function (name, file){
+    file.path = form.uploadDir + file.name;
+    filepath = file.path;
   });
 
-  if(student_id && profession && email) {
-    model.addinfo(id, student_id, profession, email, 
-      function(err, result, docs) {
-        if(err) {
-          res.render('error', {err: err});
-        }
-        if(result) {
-          res.redirect('/users?id=' + req.cookies.id);
-        } else {
-          res.render('error', {err: '회원가입 실패'});
-        }
+  form.on('file', function (name, file){
+    console.log('Uploaded ' + file.name);
+  });
+
+  model.addinfo(id, student_id, profession, email, 
+    function(err, result, docs) {
+      if(err) {
+        res.render('error', {err: err});
       }
-    )
-  }
+      if(result) {
+        model.addimg(id, filepath, 
+          function(err, result) {
+            if(err) {
+              res.render('err: ' + err);
+            } else {
+              res.redirect('/users?id=' + req.cookies.id);
+            }
+          }
+        );
+      } else {
+        res.render('error', {err: '회원가입 실패'});
+      }
+    }
+  );
 });
 
 router.route('/register')

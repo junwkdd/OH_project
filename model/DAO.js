@@ -438,12 +438,12 @@ exports.showboard = function(post_id, callback) {
     });
 };
 
-exports.addimg = function(name, filepath, callback) {
+exports.addimg = function(id, filepath, callback) {
     console.log('addimg 호출됨');
 
-    var images = db.collection('images');
+    var users = db.collection('users');
     
-    images.insertOne({"name":name,"filepath":filepath}, 
+    users.updateOne({ "id": id }, {$set: {"filepath":filepath}}, 
         function(err, result) {
             if(err) {
                 console.log('err: ' + err);
