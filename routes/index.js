@@ -22,13 +22,13 @@ router.route('/')
                   if(err) {
                     res.render('err', {err: err});
                   } else {
-                    res.render('index', {'post' : result_post, 'users': result_users, 'user': result_user, 'name': name, 'id': req.cookies.id});
+                    res.render('index', {'post' : result_post, 'users': result_users, 'user': result_user[0], 'name': name, 'id': req.cookies.id});
                   }
                 }
-              )
+              );
             }
           }
-        )
+        );
       }
     }
   );

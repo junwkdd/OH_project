@@ -13,11 +13,16 @@ router.route('/')
       function(err, result_user, result_post, result_board) {
         if(err) {
           res.render('error', {err: err});
-        }
-        if(result_user && result_post) {
-          res.render('profile', {user: result_user[0], post: result_post, board: result_board, id: req.cookies.id});
         } else {
-          res.render('error', {err: '프로필 불러오기 실패'});
+          model.showusers(req.cookies.id,
+            function(err, user) {
+              if(err) {
+                res.render('err', {err: err});
+              } else {
+                res.render('profile', {user: result_user[0], post: result_post, board: result_board, id: req.cookies.id, my_user: user[0] });
+              }
+            }
+          )
         }
       }
     );
@@ -26,7 +31,7 @@ router.route('/')
     res.redirect('/users/login');
   }
 })
-.post(function(req, res, next) {
+.put(function(req, res, next) {
   console.log('프로필 post 호출됨');
 
   var student_id
@@ -56,7 +61,7 @@ router.route('/')
       res.redirect('/users?id=' + req.cookies.id);
     }
   });
-  form.parse(req,function(err, fields, files) {
+  form.parse(req, function(err, fields, files) {
       student_id = fields.student_id;
       profession = fields.profession;
       email = fields.email;
@@ -80,7 +85,27 @@ router.route('/')
         }
       );
   });
-});
+})
+.post(function(req, res, next) {
+  console.log('프로필 put 호출됨');
+
+  var comment = req.body.comment;
+  var post_id = req.body.post_id;
+
+  if(comment) {
+    model.addcomment(comment, req.cookies.id, post_id, 
+      function(err, result, docs) {
+        if(err) {
+          console.log('err: ' + err);
+          res.render('error', {err: '댓글 작성 실패'});
+        } else if(result) {
+          console.log('댓글 작성 성공');
+          res.send({result: docs[0].comments});
+        }
+      }
+    );
+  } 
+})
 
 router.route('/register')
 .get(function(req, res, next) {
@@ -154,5 +179,11 @@ router.route('/logout')
   res.redirect('/');
 });
 
+router.route('/addcomment')
+.post(function(req, res) {
+  console.log('addcomment post 호출됨');
+
+  
+});
 
 module.exports = router;

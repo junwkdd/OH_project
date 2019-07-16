@@ -14,7 +14,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
 </head>
 <body>
     <nav class="navbar navbar-expand-sm navbar-dark sticky-top p-0" style="background-color: #006599">
@@ -45,7 +44,11 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/users?id=<%=id%>">
-                        <i class="fas fa-user-circle fa-lg mr-2"></i>
+                        <% if(user.filepath !== undefined && user.filepath !== '') { %>
+                            <img src="..<%=user.filepath%>" alt="ㅎㅇㄹ" class="mr-2 rounded-circle" style="width: 23px; height: 23px;"/>
+                        <% } else { %>
+                            <i class="fas fa-user-circle fa-lg mr-2"></i>
+                        <% } %>
                         <span class="second"><%=name%></span>
                     </a>
                 </li>
@@ -115,10 +118,10 @@
                         <div class="card-body px-0">
                             <div class="media px-2">
                                 <a href="/users?id=<%=post[i].id%>">
-                                    <% if(user.filepath !== undefined) { %>
-                                        <img src="..<%=user.filepath%>" alt="ㅎㅇㄹ" class="mr-3 rounded-circle" style="width:64px;"/>
+                                    <% if(post[i].filepath !== undefined && post[i].filepath !== '') { %>
+                                        <img src="..<%=post[i].filepath%>" alt="ㅎㅇㄹ" class="mr-3 rounded-circle" style="width:64px; height: 64px;"/>
                                     <% } else { %>
-                                        <img src="../images/porfile.png" alt="ㅂㅇㄹ" class="mr-3 rounded-circle" style="width:64px;"/>
+                                        <img src="../images/profiles/profile.png" alt="ㅂㅇㄹ" class="mr-3 rounded-circle" style="width:64px; height: 64px;"/>
                                     <% } %>
                                 </a>
                                 <div class="media-body">
@@ -249,7 +252,13 @@
                             <% if(post[i].comments !== undefined) { %>
                                 <% for(var j = 0; j<post[i].comments.length; j++) { %>
                                     <div class="media pl-4 pt-3">
-                                        <a href="/users?id=<%=post[i].comments[j].id%>"><img src="../images/porfile.png" alt="" class="mr-3 rounded-circle" style="width:40px;"></a>
+                                        <a href="/users?id=<%=post[i].comments[j].id%>">
+                                            <% if(post[i].comments[j].filepath !== undefined && post[i].comments[j].filepath !== '') { %>
+                                                <img src="..<%=post[i].comments[j].filepath%>" alt="ㅎㅇㄹ" class="mr-3 rounded-circle" style="width:40px; height: 40px;"/>
+                                            <% } else { %>
+                                                <img src="../images/porfile.png" alt="ㅂㅇㄹ" class="mr-3 rounded-circle" style="width:40px; height: 40px;"/>
+                                            <% } %>
+                                        </a>
                                         <div class="media-body" id="comment-body">
                                             <a href="/users?id=<%=post[i].comments[j].id%>" class="hover"><h6><span id="post_name_<%=post[i]._id%>"><%=post[i].comments[j].name%></span></a> <small><i id="post_date_<%=post[i]._id%>"> <%=post[i].comments[j].date%></i></small></h6>
                                             <p id="post_content_<%=post[i]._id%>" class="bg-white rounded-lg p-2"><%=post[i].comments[j].content%></p>
@@ -273,7 +282,7 @@
                                             if(data !== undefined) {
                                                 for(var j = 0; j < data.length; j++) {
                                                     var html = '<div class="media pl-4 pt-3">';
-                                                        html += '<a href="/users?id="' + data[j].id + '"><img src="../images/porfile.png" alt="" class="mr-3 rounded-circle" style="width:40px;"></a>';
+                                                        html += '<a href="/users?id="' + data[j].id + '"><img src="' + data[j].filepath + '" alt="" class="mr-3 rounded-circle" style="width:40px; height: 40px;"></a>';
                                                         html += '<div class="media-body" id="comment-body">';
                                                         html += '<a href="/users?id="' + data[j].id + '" class="hover"><h6><span id="post_name_<%=post[i]._id%>">' + data[j].name + '</span></a> <small><i id="post_date_<%=post[i]._id%>">' + data[j].date + '</i></small></h6>';
                                                         html += '<p id="post_content_<%=post[i]._id%>" class="bg-white rounded-lg p-2">' + data[j].content + '</p>';

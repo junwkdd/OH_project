@@ -97,7 +97,7 @@ exports.addpost = function(content, id, callback) {
     var like = 0;
 
     user.toArray(function(err, docs) {
-        post.insertMany([{"name": docs[0].name, "id": id, "content": content, "date": date, 'like': like, 'like_user': [], 'profile': docs[0].filepath}], 
+        post.insertMany([{"name": docs[0].name, "id": id, "content": content, "date": date, 'like': like, 'like_user': [], 'filepath': docs[0].filepath}], 
             function(err, result) {
                 if (err) {
                     console.log('게시물 추가 안됨');
@@ -122,7 +122,7 @@ exports.addcomment = function(content, id, post_id, callback) {
     var date = moment().format('YYYY-MM-DD(hh:mm)');
 
     user.toArray(function(err, docs) {
-        var comment = {'name': docs[0].name, 'id': id, 'content': content, 'date': date};
+        var comment = {'name': docs[0].name, 'id': id, 'content': content, 'date': date, 'filepath': docs[0].filepath};
         posts.updateOne({"_id": post_id}, {$push: {'comments': comment}},
             function(err, result) {
                 if (err) {
@@ -442,18 +442,25 @@ exports.addimg = function(id, filepath, callback) {
     console.log('addimg 호출됨');
 
     var users = db.collection('users');
+    var posts = db.collection('post');
 
     filepath = filepath.substring(35);
     
-    users.updateOne({ "id": id }, {$set: {"filepath": filepath}}, 
+    users.updateOne({ "id" : id }, {$set: {"filepath": filepath}}, 
         function(err, result) {
             if(err) {
-                console.log('err: ' + err);
                 callback(err, null);
             } else {
-                console.log('이미지 저장 성공');
-                callback(null, result);
+                posts.updateOne({'id': id}, {$set: {'filepath': filepath}},
+                    function(err, result) {
+                        if(err) {
+                            callback(err, null);
+                        } else {
+                            callback(null, result);
+                        }
+                    }
+                );
             }
         }
-    )
+    );
 };
