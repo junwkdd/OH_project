@@ -445,7 +445,7 @@ exports.addimg = function(id, filepath, callback) {
 
     filepath = filepath.substring(35, 100);
     
-    users.updateOne({ "id": id }, {$set: {"filepath":filepath}}, 
+    users.updateOne({ "id": id }, {$set: {"filepath": filepath}}, 
         function(err, result) {
             if(err) {
                 console.log('err: ' + err);

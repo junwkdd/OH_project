@@ -53,7 +53,7 @@
         </nav>
 
         <div class="container emp-profile">
-            <form method="post" autocomplete="off" enctype="multipart/form-data">
+            <form method="POST" autocomplete="off" enctype="multipart/form-data">
                 <div class="row">
                     <div class="col-md-4">
                         <div class="profile-img mt-n5">
@@ -64,7 +64,8 @@
                         <% } %>
                             <div class="file btn btn-lg btn-primary">
                                 Change Photo
-                                <input class="file-upload upload-button" type="file"name="upload" multiple="multiple" title="profileimg" accept="image/*"/>
+                                <input class="file-upload upload-button" type="file" name="upload" multiple="multiple" title="profileimg" accept="image/*"/>
+                                <%# 이미지 변경 미리보기 %>
                                 <script>
                                     $(document).ready(function() {
                                         var readURL = function(input) {
@@ -85,7 +86,32 @@
                                         });
                                     });
                                 </script>
+                                <!--
+                                <script>
+                                    var data = new FormData();
+                                    $.each($('#upload-input')[0].files, function(i, file) {
+                                        data.append('file-'+i, file);
+                                    });
+                                    $('.upload-button').change(function() {
+                                        $.ajax({
+                                            url: '/users/addimg',
+                                            type: 'post',
+                                            dataType:'file',
+                                            data: data,
+                                            cache: false,
+                                            contentType: false,
+                                            processData: false,
+                                            success: function(data) {
+                                                alert(data);
+                                            },
+                                            error: function(request, status, error) {
+                                            }
+                                        });
+                                    });
+                                </script>
+                                -->
                             </div>
+
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -105,9 +131,9 @@
                         </div>
                     </div>
                     <div class="col-md-2">
-                    <% if(user.id == id) { %>
-                        <input type="submit" class="profile-edit-btn" name="btnAddMore" value="프로필 수정"/>
-                    <% } %>
+                        <% if(user.id == id) { %>
+                            <input type="submit" class="profile-edit-btn" name="btnAddMore" value="프로필 수정"/>
+                        <% } %>
                     </div>
                 </div>
                 <div class="row">
@@ -166,8 +192,8 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="col-md-6 mt-n5" style="overflow:scroll; overflow-x: hidden; height: 48vh!important;">
+                
+                    <div class="col-md-6 mt-n5" style="overflow:scroll; overflow-x: hidden; height: 60vh!important;">
                         <div class="tab-content profile-tab" id="myTabContent">
                             <div class="tab-pane fade show active" id="post" role="tabpanel" aria-labelledby="home-tab">
                                 <%# 본문 반복 %>
@@ -215,9 +241,6 @@
                                                             data = data.like_users[0];
                                                             for(var i = 0; i < data.like_user.length; i++) {
                                                                 if('<%=id%>' == data.like_user[i]) {
-                                                                    console.log('post_id: ' + '<%=post[i]._id%>');
-                                                                    console.log('id: ' + '<%=id%>');
-                                                                    console.log('data.like_user[i]: ' + data.like_user[i]);
                                                                     $('#heart_<%=post[i]._id%>').css('color', 'red');
                                                                     break;
                                                                 } else {
@@ -257,7 +280,6 @@
                                                         dataType:'json',
                                                         data: {post_id: post_id, flag: flag},
                                                         success: function(data) {
-                                                            console.log(data);
                                                             $('#like_count_<%=post[i]._id%>').html('(' + data.result + ')');
                                                             if($('#heart_<%=post[i]._id%>').css('color') == 'rgb(255, 255, 255)') {
                                                                 $('#heart_<%=post[i]._id%>').css('color', 'red');
@@ -323,7 +345,7 @@
                                                         var comment = $('#comment_<%=post[i]._id%>').val();
                                                         $('#comment_<%=post[i]._id%>').val('');
                                                         $.ajax({
-                                                            url: '/',
+                                                            url: '../',
                                                             type: 'post',
                                                             data: {post_id: post_id, comment: comment},
                                                             success: function(res) {

@@ -10,16 +10,22 @@ router.route('/')
   model.showpost(req.cookies.id, 
     function(err, result_post, name) {
       if(err) {
-        console.log('err: ' + err);
-        res.render('error', {err: '게시물 보유주기 실패'});
+        res.render('err', {err: err});
       } else {
         model.showusers(null, 
           function(err, result_users) {
             if(err) {
-              console.log('err: ' + err);            
+              res.render('err', {err: err});
             } else {
-              console.dir('result_users: ' + result_users);
-              res.render('index', {'post' : result_post, 'users': result_users, 'name': name, 'id': req.cookies.id});
+              model.showusers(req.cookies.id, 
+                function(err, result_user) {
+                  if(err) {
+                    res.render('err', {err: err});
+                  } else {
+                    res.render('index', {'post' : result_post, 'users': result_users, 'user': result_user, 'name': name, 'id': req.cookies.id});
+                  }
+                }
+              )
             }
           }
         )
@@ -117,5 +123,6 @@ router.route('/')
     }
   )
 });
+
 
 module.exports = router;

@@ -55,7 +55,7 @@
     
     <div class="row mt-4">
         <%# 가입자 목록 %>
-        <div class="col-sm-2 pl-4 pr-2">
+        <div class="col-sm-2 pl-4 pr-2" style="overflow:scroll; overflow-x: hidden; height: 90vh!important;">
             <table class="table">
                 <thead>
                     <tr>
@@ -114,7 +114,13 @@
                         <%# 본문  %>
                         <div class="card-body px-0">
                             <div class="media px-2">
-                                <a href="/users?id=<%=post[i].id%>"><img src="../images/porfile.png" class="mr-3" alt="..." style="width:64px;"></a>
+                                <a href="/users?id=<%=post[i].id%>">
+                                    <% if(user.filepath !== undefined) { %>
+                                        <img src="..<%=user.filepath%>" alt="ㅎㅇㄹ" class="mr-3 rounded-circle" style="width:64px;"/>
+                                    <% } else { %>
+                                        <img src="../images/porfile.png" alt="ㅂㅇㄹ" class="mr-3 rounded-circle" style="width:64px;"/>
+                                    <% } %>
+                                </a>
                                 <div class="media-body">
                                     <h5 class="mt-0"><a href="/users?id=<%=post[i].id%>" class="hover"><%=post[i].name%></a></h5>
                                     <%=post[i].date%>
