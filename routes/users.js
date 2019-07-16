@@ -38,13 +38,13 @@ router.route('/')
   form.uploadDir = 'C:/Node-workspace/OH_project/public/images/profiles/';
 
   form.on('fileBegin', function (name, file) {
-      file.name="profile.png";
       file.path = form.uploadDir + file.name;
       if(file.path == 'C:/Node-workspace/OH_project/public/images/profiles/') {
-        filepath = 'C:/Node-workspace/OH_project/public/images/porfile.png';
+        file.path = 'C:/Node-workspace/OH_project/public/images/profiles/profile.png';
       } else {
         filepath = file.path;
       }
+      filepath = file.path;
     console.log('filepath: ' + filepath);
   });
   form.on('file', function (name, file) {

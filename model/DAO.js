@@ -287,7 +287,7 @@ exports.showprofile = function(id, callback) {
 
 exports.addinfo = function(id, student_id, profession, email, callback) {
     console.log('addinfo 호출됨');
-    
+
     var users = db.collection('users');
     var user = users.find({'id': id});
 
@@ -443,7 +443,7 @@ exports.addimg = function(id, filepath, callback) {
 
     var users = db.collection('users');
 
-    filepath = filepath.substring(35, 100);
+    filepath = filepath.substring(35);
     
     users.updateOne({ "id": id }, {$set: {"filepath": filepath}}, 
         function(err, result) {
