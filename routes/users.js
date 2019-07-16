@@ -40,7 +40,7 @@ router.route('/')
   form.on('fileBegin', function (name, file) {
       file.path = form.uploadDir + file.name;
       if(file.path == 'C:/Node-workspace/OH_project/public/images/profiles/') {
-        file.path = 'C:/Node-workspace/OH_project/public/images/profiles/profile.png';
+        file.path = 'undefined';
       } else {
         filepath = file.path;
       }

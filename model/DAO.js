@@ -97,7 +97,7 @@ exports.addpost = function(content, id, callback) {
     var like = 0;
 
     user.toArray(function(err, docs) {
-        post.insertMany([{"name": docs[0].name, "id": id, "content": content, "date": date, 'like': like, 'like_user': []}], 
+        post.insertMany([{"name": docs[0].name, "id": id, "content": content, "date": date, 'like': like, 'like_user': [], 'profile': docs[0].filepath}], 
             function(err, result) {
                 if (err) {
                     console.log('게시물 추가 안됨');

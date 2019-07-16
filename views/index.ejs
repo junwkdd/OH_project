@@ -83,8 +83,8 @@
                         <div class="card-header py-2 px-3">게시물 작성</div>
                         <div class="card-body p-0">
                         <% if(name !== undefined) { %>
-                                <div contentEditable="true" class="form-control border-0 pl-3 px-3" placeholder="<%=name%>님 내용을 작성하세요." style="height: 82px;"></div>
-                                <!--<textarea class="form-control border-0 pl-3 px-3" name="content" placeholder="<%=name%>님 내용을 작성하세요." rows="3" id="comment" autocomplete="off" style="resize:none; overflow: hidden;" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'></textarea>-->
+                                <!--<div contentEditable="true" class="form-control border-0 pl-3 px-3" placeholder="<%=name%>님 내용을 작성하세요." style="height: 82px;"></div>-->
+                                <textarea class="form-control border-0 pl-3 px-3" name="content" placeholder="<%=name%>님 내용을 작성하세요." rows="3" id="comment" autocomplete="off" style="resize:none; overflow: hidden;" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'></textarea>
                             <% } else { %>
                                 <textarea class="form-control border-0 pl-3 px-3" name="content" placeholder="로그인을 하고 게시물을 작성해보세요." rows="3" id="comment" autocomplete="off" style="resize:none; overflow: hidden;" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'></textarea>
                             <% } %>

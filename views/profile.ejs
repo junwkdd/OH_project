@@ -57,7 +57,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="profile-img mt-n5">
-                        <% if(user.filepath !== undefined) { %>
+                        <% if(user.filepath !== undefined && user.filepath !== '') { %>
                             <img src="..<%=user.filepath%>" alt="ㅎㅇㄹ" class="img rounded-circle"/>
                         <% } else { %>
                             <img src="../images/profiles/profile.png" alt="ㅂㅇㄹ" class="img rounded-circle"/>
