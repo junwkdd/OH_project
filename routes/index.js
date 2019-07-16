@@ -109,9 +109,7 @@ router.route('/')
 })
 .delete(function(req, res, next) {
   var post_id = req.body.post_id;
-
-  console.log('post_id: ' + post_id);
-
+  
   model.show_like_users(post_id, 
     function(err, result) {
       if(err) {

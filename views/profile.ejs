@@ -60,11 +60,11 @@
                         <% if(user.filepath !== undefined) { %>
                             <img src="..<%=user.filepath%>" alt="ㅎㅇㄹ" class="img rounded-circle"/>
                         <% } else { %>
-                            <img src="../images/porfile.png" alt="ㅂㅇㄹ" class="img rounded-circle"/>
+                            <img src="../images/profiles/profile.png" alt="ㅂㅇㄹ" class="img rounded-circle"/>
                         <% } %>
                             <div class="file btn btn-lg btn-primary">
                                 Change Photo
-                                <input class="file-upload upload-button" type="file" name="upload" multiple="multiple" title="profileimg" accept="image/*"/>
+                                <input class="file-upload upload-button" type="file" name="upload" multiple title="profileimg" accept="image/*"/>
                                 <%# 이미지 변경 미리보기 %>
                                 <script>
                                     $(document).ready(function() {
@@ -86,30 +86,6 @@
                                         });
                                     });
                                 </script>
-                                <!--
-                                <script>
-                                    var data = new FormData();
-                                    $.each($('#upload-input')[0].files, function(i, file) {
-                                        data.append('file-'+i, file);
-                                    });
-                                    $('.upload-button').change(function() {
-                                        $.ajax({
-                                            url: '/users/addimg',
-                                            type: 'post',
-                                            dataType:'file',
-                                            data: data,
-                                            cache: false,
-                                            contentType: false,
-                                            processData: false,
-                                            success: function(data) {
-                                                alert(data);
-                                            },
-                                            error: function(request, status, error) {
-                                            }
-                                        });
-                                    });
-                                </script>
-                                -->
                             </div>
 
                         </div>
@@ -377,7 +353,7 @@
                             </div>
 
                             <div class="tab-pane fade" id="board" role="tabpanel" aria-labelledby="profile-tab">
-                                <table class="table table-striped table-bordered table-hover text-center">
+                                <table class="table table-striped table-bordered table-hover text-center mt-3">
                                     <thead>
                                         <tr class="">
                                             <th>번호</th>

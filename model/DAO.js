@@ -143,7 +143,6 @@ exports.addcomment2 = function(content, id, post_id, callback) {
     console.log('addcomment2 호출됨');
 
     post_id = new ObjectId(post_id);
-    console.log('post_id: ' + post_id);
     var boards = db.collection("board");
     var board = boards.find({"_id": post_id});
     var users = db.collection('users');
@@ -184,6 +183,7 @@ exports.addlike = function(post_id, id, callback) {
     console.log('addlike 호출됨');
 
     post_id = new ObjectId(post_id);
+
 
     var posts = db.collection("post");
     var post = posts.find({'_id': post_id});
@@ -286,6 +286,8 @@ exports.showprofile = function(id, callback) {
 };
 
 exports.addinfo = function(id, student_id, profession, email, callback) {
+    console.log('addinfo 호출됨');
+    
     var users = db.collection('users');
     var user = users.find({'id': id});
 
@@ -360,7 +362,6 @@ exports.addboard = function(title, content, id, callback) {
     counter.toArray(function(err, docs) {
         post_id = docs[0].post_id;
         counters.update({"post_id": post_id}, {$set: {"post_id": parseInt(post_id)+1}});
-        console.log('post_id:' + post_id);
     });
     user.toArray(function(err, docs) {
         board.insertMany([{"post_id": post_id, "title": title, "name": docs[0].name, "id": docs[0].id, "content": content, "date": date, "view": 0}], 
@@ -420,7 +421,6 @@ exports.showboards = function(page, callback) {
 exports.showboard = function(post_id, callback) {
     console.log('show board 호출됨');
 
-    console.log('post_id:' + post_id);
     post_id = new ObjectId(post_id);
     var boards = db.collection("board");
     var board = boards.find({ "_id": post_id});

@@ -29,49 +29,57 @@ router.route('/')
 .post(function(req, res, next) {
   console.log('프로필 post 호출됨');
 
-  var student_id = req.body.student_id;
-  var profession = req.body.profession;
-  var email = req.body.email;
+  var student_id
+  var profession
+  var email
   var id = req.cookies.id;
   var form = new formidable.IncomingForm();
   var filepath;
-  form.encoding = 'utf-8';
   form.uploadDir = 'C:/Node-workspace/OH_project/public/images/profiles/';
-  form.multiples = false;
-  form.keepExtensions = true;
 
-  form.parse(req);
-  form.on('fileBegin', function (name, file){
-      console.log('asd');
+  form.on('fileBegin', function (name, file) {
+      file.name="profile.png";
       file.path = form.uploadDir + file.name;
-      filepath = file.path;
+      if(file.path == 'C:/Node-workspace/OH_project/public/images/profiles/') {
+        filepath = 'C:/Node-workspace/OH_project/public/images/porfile.png';
+      } else {
+        filepath = file.path;
+      }
+    console.log('filepath: ' + filepath);
   });
-  form.on('file', function (name, file){
-    console.log('Uploaded ' + file.name);
+  form.on('file', function (name, file) {
+      console.log('Uploaded ' + file.name);
   });
   form.on('error', function(err) {
-    console.log('err: ' + err);
-    res.redirect('/users?id=' + req.cookies.id);
-  });
-
-  model.addinfo(id, student_id, profession, email, 
-    function(err, result, docs) {
-      if(err) {
-        res.render('error', {err: err});
-      }
-      if(result) {
-        model.addimg(id, filepath, 
-          function(err, result) {
-            if(err) {
-              res.render('err' + {err:err});
-            } else {
-              res.redirect('/users?id=' + req.cookies.id);
-            }
-          }
-        );
-      }
+    if(err) {
+      res.render('err: ' + {err: err});
+      res.redirect('/users?id=' + req.cookies.id);
     }
-  );
+  });
+  form.parse(req,function(err, fields, files) {
+      student_id = fields.student_id;
+      profession = fields.profession;
+      email = fields.email;
+
+      model.addinfo(id, student_id, profession, email, 
+        function(err, result, docs) {
+          if(err) {
+            res.render('error', {err: err});
+          }
+          if(result) {
+            model.addimg(id, filepath, 
+              function(err, result) {
+                if(err) {
+                  res.render('err' + {err:err});
+                } else {
+                  res.redirect('/users?id=' + req.cookies.id);
+                }
+              }
+            );
+          }
+        }
+      );
+  });
 });
 
 router.route('/register')
@@ -146,40 +154,5 @@ router.route('/logout')
   res.redirect('/');
 });
 
-router.route('/addimg')
-.post(function(req, res) {
-  var id = req.cookies.id;
-  var form = new formidable.IncomingForm();
-  var filepath;
-  form.encoding = 'utf-8';
-  form.uploadDir = 'C:/Node-workspace/OH_project/public/images/profiles/';
-  form.multiples = false;
-  form.keepExtensions = true;
-
-  form.parse(req);
-  form.on('fileBegin', function (name, file){
-      console.log('asd');
-      file.path = form.uploadDir + file.name;
-      filepath = file.path;
-  });
-  form.on('file', function (name, file){
-    console.log('Uploaded ' + file.name);
-  });
-  form.on('error', function(err) {
-    console.log('err: ' + err);
-    res.redirect('/users?id=' + req.cookies.id);
-  });
-  form.on('end', function() {
-    model.addimg(id, filepath, 
-      function(err, result) {
-        if(err) {
-          res.render('err' + {err:err});
-        } else {
-          res.redirect('/users?id=' + req.cookies.id);
-        }
-      }
-    );
-  });
-});
 
 module.exports = router;
