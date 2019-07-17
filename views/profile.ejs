@@ -57,7 +57,7 @@
         </nav>
 
         <div class="container emp-profile">
-            <form method="PUT" autocomplete="off" enctype="multipart/form-data">
+            <form method="post" autocomplete="off" enctype="multipart/form-data">
                 <div class="row">
                     <div class="col-md-4">
                         <div class="profile-img mt-n5">
@@ -343,7 +343,7 @@
                                                         var comment = $('#comment_<%=post[i]._id%>').val();
                                                         $('#comment_<%=post[i]._id%>').val('');
                                                         $.ajax({
-                                                            url: '/',
+                                                            url: '/users/addcomment',
                                                             type: 'post',
                                                             data: {post_id: post_id, comment: comment},
                                                             success: function(res) {

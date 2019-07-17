@@ -31,7 +31,7 @@ router.route('/')
     res.redirect('/users/login');
   }
 })
-.put(function(req, res, next) {
+.post(function(req, res, next) {
   console.log('프로필 post 호출됨');
 
   var student_id
@@ -85,27 +85,7 @@ router.route('/')
         }
       );
   });
-})
-.post(function(req, res, next) {
-  console.log('프로필 put 호출됨');
-
-  var comment = req.body.comment;
-  var post_id = req.body.post_id;
-
-  if(comment) {
-    model.addcomment(comment, req.cookies.id, post_id, 
-      function(err, result, docs) {
-        if(err) {
-          console.log('err: ' + err);
-          res.render('error', {err: '댓글 작성 실패'});
-        } else if(result) {
-          console.log('댓글 작성 성공');
-          res.send({result: docs[0].comments});
-        }
-      }
-    );
-  } 
-})
+});
 
 router.route('/register')
 .get(function(req, res, next) {
@@ -180,10 +160,22 @@ router.route('/logout')
 });
 
 router.route('/addcomment')
-.post(function(req, res) {
-  console.log('addcomment post 호출됨');
+.post(function(req, res, next) {
+  var comment = req.body.comment;
+  var post_id = req.body.post_id;
+  console.log('comment: ' + comment);
 
-  
+  if(comment) {
+    model.addcomment(comment, req.cookies.id, post_id,
+      function(err, result, docs) {
+        if(err) {
+          res.render('error', {err: '댓글 작성 실패'});
+        } else if(result) {
+          res.send({result: docs[0].comments});
+        }
+      }
+    )
+  }
 });
 
 module.exports = router;

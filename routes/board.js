@@ -18,8 +18,8 @@ router.route('/')
                         function(err, user) {
                             if(err) {
                                 res.render('err', {err: err});
-                            } else {
-                                res.render('boardoutput', {post: result, id: req.cookies.id, name: user[0].name}); 
+                            } else {                            
+                                res.render('boardoutput', {post: result, id: req.cookies.id, user: user[0]}); 
                             }
                         }
                     )
@@ -30,14 +30,14 @@ router.route('/')
         model.showboards(req.query.page, 
             function(err, result) {
                 if(err) {
-                    console.log('err: ' + err);
+                    res.render('err', {err: err});
                 } else {
                     model.showusers(req.cookies.id, 
                         function(err, user) {
                             if(err) {
                                 res.render('err', {err: err});
                             } else {
-                                res.render('board', { 'board': result.docs, 'page': result.page, 'start': result.start, 'end': result.end, 'totalPage': result.totalPage, 'id': req.cookies.id, 'name': user[0].name } );
+                                res.render('board', { 'board': result.docs, 'page': result.page, 'start': result.start, 'end': result.end, 'totalPage': result.totalPage, 'id': req.cookies.id, 'user': user[0] } );
                             }
                         }
                     );
@@ -69,6 +69,22 @@ router.route('/')
 })
 
 router.route('/input')
+.get(function(req, res) {
+    if(req.cookies.id) {
+        model.showusers(req.cookies.id,
+            function(err, user) {
+                if(err) {
+                    res.render('err', {err: err});
+                } else {
+                    res.render('boardinput', {id: req.cookies.id, user: user[0]});
+                }
+            }
+        );
+    } else {
+        console.log('로그인이 안되어있음');
+        res.redirect('/users/login');
+    }
+})
 .post(function(req, res) {
     console.log('/boardinput post 호출됨');
     var title= req.body.title
@@ -90,22 +106,7 @@ router.route('/input')
         }
     }
     
-})
-.get(function(req, res) {
-    if(req.cookies.id) {
-        model.showusers(req.cookies.id,
-            function(err, user) {
-                if(err) {
-                    res.render('err', {err: err});
-                } else {
-                    res.render('boardinput', {id: req.cookies.id, name: user[0].name});
-                }
-            }
-        );
-    } else {
-        console.log('로그인이 안되어있음');
-        res.redirect('/users/login');
-    }
 });
+
 
 module.exports = router;

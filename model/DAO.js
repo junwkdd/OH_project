@@ -154,7 +154,7 @@ exports.addcomment2 = function(content, id, post_id, callback) {
             console.log('err: ' + err);
             callback(err, null);
         } else {
-            var comment = {'name': docs[0].name, 'id': id, 'content': content, 'date': date};
+            var comment = {'name': docs[0].name, 'id': id, 'content': content, 'date': date, 'filepath': docs[0].filepath};
             boards.updateOne({"_id": post_id}, {$push: {'comments': comment}},
                 function(err, result) {
                     if (err) {
@@ -364,7 +364,7 @@ exports.addboard = function(title, content, id, callback) {
         counters.update({"post_id": post_id}, {$set: {"post_id": parseInt(post_id)+1}});
     });
     user.toArray(function(err, docs) {
-        board.insertMany([{"post_id": post_id, "title": title, "name": docs[0].name, "id": docs[0].id, "content": content, "date": date, "view": 0}], 
+        board.insertMany([{"post_id": post_id, "title": title, "name": docs[0].name, "id": docs[0].id, "content": content, "date": date, "view": 0, 'filepath': docs[0].filepath}], 
             function(err, result) {
                 if (err) {
                     callback(err, null);
@@ -443,6 +443,7 @@ exports.addimg = function(id, filepath, callback) {
 
     var users = db.collection('users');
     var posts = db.collection('post');
+    var boards = db.collection('board');
 
     filepath = filepath.substring(35);
     
@@ -456,7 +457,31 @@ exports.addimg = function(id, filepath, callback) {
                         if(err) {
                             callback(err, null);
                         } else {
-                            callback(null, result);
+                            boards.updateOne({'id': id}, {$set:  {'filepath': filepath}},
+                                function(err, result) {
+                                    if(err) {
+                                        res.render('err', {err: err});
+                                    } else {
+                                        posts.updateOne({'comments.id': id}, {$set: {'comments.$[].filepath': filepath}},
+                                            function(err, result) {
+                                                if(err) {
+                                                    callback(err, null);
+                                                } else {
+                                                    boards.updateOne({'comments.id': id}, {$set: {'comments.$[].filepath': filepath}},
+                                                        function(err, result) {
+                                                            if(err) {
+                                                                callback(err, null);
+                                                            } else {                                                    
+                                                                callback(null, result);
+                                                            }
+                                                        }  
+                                                    );   
+                                                }
+                                            }
+                                        );
+                                    }
+                                }
+                            );
                         }
                     }
                 );

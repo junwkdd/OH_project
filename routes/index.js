@@ -44,7 +44,6 @@ router.route('/')
       model.addpost(content, req.cookies.id, 
         function(err, result) {
           if(err) {
-            console.log('err: ' + err);
             res.render('error', {err: '게시물 작성 실패'});
           } else {
             res.redirect('/');
@@ -57,10 +56,8 @@ router.route('/')
       model.addcomment(comment, req.cookies.id, post_id, 
         function(err, result, docs) {
           if(err) {
-            console.log('err: ' + err);
             res.render('error', {err: '댓글 작성 실패'});
           } else if(result) {
-            console.log('댓글 작성 성공');
             res.send({result: docs[0].comments});
           }
         }
