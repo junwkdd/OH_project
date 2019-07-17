@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var formidable = require('formidable');
 
 var model = require('../model/DAO');
 
@@ -87,25 +88,63 @@ router.route('/input')
 })
 .post(function(req, res) {
     console.log('/boardinput post 호출됨');
-    var title= req.body.title
-    var content = req.body.content
 
-    if(title && content) {
-        if(req.cookies.id) {
-            model.addboard(title, content, req.cookies.id,
-                function (err, result) {
-                    if (err) {
-                        res.render('err', {err: err});
-                    } else {
-                        res.redirect('../board');
-                    }
-                }
-            );
-        } else {
-            res.redirect('/users/login');
-        }
-    }
+    // var title= req.body.title
+    // var content = req.body.content
+
+    // if(title && content) {
+    //     if(req.cookies.id) {
+    //         model.addboard(title, content, req.cookies.id, null,
+    //             function (err, result) {
+    //                 if (err) {
+    //                     res.render('err', {err: err});
+    //                 } else {
+    //                     res.redirect('../board');
+    //                 }
+    //             }
+    //         );
+    //     } else {
+    //         res.redirect('/users/login');
+    //     }
+    // }
+
+
+    var form = new formidable.IncomingForm();
+    var filepath;
+    form.uploadDir = 'C:/Node-workspace/OH_project/public/images/board/';
     
+    form.on('fileBegin', function (name, file) {
+        file.path = form.uploadDir + file.name;
+        if(file.path == 'C:/Node-workspace/OH_project/public/images/board/') {
+            file.path = 'undefined';
+        } else {
+            filepath = file.path;
+        }
+        filepath = file.path;
+        console.log('filepath: ' + filepath);
+    });
+    form.on('file', function (name, file) {
+        console.log('Uploaded ' + file.name);
+    });
+    form.on('error', function(err) {
+    if(err) {
+        res.render('err: ' + {err: err});
+    }
+    });
+    form.parse(req, function(err, fields, files) {
+        var title = fields.title;
+        var content = fields.content;
+
+        model.addboard(title, content, req.cookies.id, filepath,
+            function (err, result) {
+                if (err) {
+                    res.render('err', {err: err});
+                } else {
+                    res.redirect('../board');
+                }
+            }          
+        );
+    });
 });
 
 

@@ -350,25 +350,26 @@ exports.show_like_users = function(post_id, callback) {
     })
 };
 
-exports.addboard = function(title, content, id, callback) {
-    console.log('addpost 호출됨');
+exports.addboard = function(title, content, id, filepath, callback) {
+    console.log('addboard 호출됨');
     var users = db.collection('users');
     var counters = db.collection('counters');
     var counter = counters.find({});
     var board = db.collection('board');
     var user = users.find({ 'id': id });
     var date = moment().format('YYYY-MM-DD(hh:mm)');
+    var post_id;
+    filepath = filepath.substring(35);
     
     counter.toArray(function(err, docs) {
         post_id = docs[0].post_id;
         counters.update({"post_id": post_id}, {$set: {"post_id": parseInt(post_id)+1}});
     });
     user.toArray(function(err, docs) {
-        board.insertMany([{"post_id": post_id, "title": title, "name": docs[0].name, "id": docs[0].id, "content": content, "date": date, "view": 0, 'filepath': docs[0].filepath}], 
+        board.insertMany([{"post_id": post_id, "title": title, "name": docs[0].name, "id": docs[0].id, "content": content, "date": date, "view": 0, 'filepath': docs[0].filepath, 'imgpath': filepath }], 
             function(err, result) {
                 if (err) {
                     callback(err, null);
-                    return;
                 }
                 if (result) {
                     console.log('게시물 추가 됨');

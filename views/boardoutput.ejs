@@ -43,12 +43,12 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/users?id=<%=id%>">
-                            <% if(user.filepath !== undefined && user.filepath !== '') { %>
+                            <% if(user !== undefined && user.filepath !== undefined && user.filepath !== '') { %>
                                 <img src="..<%=user.filepath%>" alt="ㅎㅇㄹ" class="mr-2 rounded-circle" style="width: 23px; height: 23px;"/>
+                                <span class="second"><%=user.name%></span>
                             <% } else { %>
                                 <i class="fas fa-user-circle fa-lg mr-2"></i>
                             <% } %>
-                            <span class="second"><%=user.name%></span>
                         </a>
                     </li>
                 <% } %>
@@ -69,6 +69,7 @@
                 </div>
                 <div class="card-body px-5 pb-3" style="font-size: 17px; height: 50vh">
                     <p><%=post.content%></p>
+                    <p><img src="..<%=post.imgpath%>" style="width: 30vw; height: 30vh;"></img></p>
                 </div>         
                 
                 <div class="card-footer" id="comment_board">
