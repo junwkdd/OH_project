@@ -41,7 +41,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/users?id=<%=id%>">
-                            <% if(user !== undefined && user.filepath !== undefined && user.filepath !== '') { %>
+                            <% if(user !== undefined && user.filepath !== undefined && user.filepath !== '' && user.filepath !== null) { %>
                                 <img src="..<%=user.filepath%>" alt="ㅎㅇㄹ" class="mr-2 rounded-circle" style="width: 23px; height: 23px;"/>
                                 <span class="second"><%=user.name%></span>
                             <% } else { %>
