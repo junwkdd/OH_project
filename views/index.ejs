@@ -308,21 +308,7 @@
                     </div>
                 </div>
             <% } %>
-
-            <%# 무한 스크롤 %>
-            <script>
-                var page = 1;
-
-                $(window).scroll(function() {
-                    if ($(window).scrollTop() == $(document).height() - $(window).height()) {
-                        console.log(++page);
-                        $("#enters").append();
-                    }
-                });
-            </script>
         </div>
     </div>
-
-
 </body>
 </html>

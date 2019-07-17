@@ -58,14 +58,14 @@
         <div class="container my-5">
             <div class="shadow-lg card bg-white rounded">
                 <div class="card-header pb-0">
-                <% if(post.filepath !== undefined && user.filepath !== '') { %>
-                    <img src="../<%=post.filepath%>" alt="profileimg" class="float-left rounded-circle mt-1" style="width:60px; height: 60px;">
-                <% } else { %>
-                    <img src="../images/porfile.png" alt="profileimg" class="float-left rounded-circle mt-1" style="width:60px; height: 60px;">
-                <% } %>
-                    <span class="float-right text-secondary"><%=post.date%></span>
-                    <h4 class="pt-3 pl-4 ml-5"><%=post.title%></h4>
-                    <a href="/users?id=<%=post.id%>"><span class="float-right pb-2 text-secondary"><%=post.name%></span></a>
+                    <% if(post.filepath !== undefined && user.filepath !== '') { %>
+                        <img src="../<%=post.filepath%>" alt="profileimg" class="float-left rounded-circle mt-1" style="width:60px; height: 60px;">
+                    <% } else { %>
+                        <img src="../images/porfile.png" alt="profileimg" class="float-left rounded-circle mt-1" style="width:60px; height: 60px;">
+                    <% } %>
+                        <span class="float-right text-secondary"><%=post.date%></span>
+                        <h4 class="pt-3 pl-4 ml-5"><%=post.title%></h4>
+                        <a href="/users?id=<%=post.id%>"><span class="float-right pb-2 text-secondary"><%=post.name%></span></a>
                 </div>
                 <div class="card-body px-5 pb-3" style="font-size: 17px; height: 50vh">
                     <p><%=post.content%></p>
