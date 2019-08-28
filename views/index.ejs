@@ -117,7 +117,7 @@
                         <div class="card-body px-0">
                             <div class="media px-2">
                                 <a href="/users?id=<%=post[i].id%>">
-                                    <% if(post[i].filepath !== undefined && post[i].filepath !== '') { %>
+                                    <% if(post[i].filepath !== undefined && post[i].filepath !== '' && post[i].filepath !== null) { %>
                                         <img src="..<%=post[i].filepath%>" alt="ㅎㅇㄹ" class="mr-3 rounded-circle" style="width:64px; height: 64px;"/>
                                     <% } else { %>
                                         <img src="../images/profiles/profile.png" alt="ㅂㅇㄹ" class="mr-3 rounded-circle" style="width:64px; height: 64px;"/>
